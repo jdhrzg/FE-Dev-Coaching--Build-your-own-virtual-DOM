@@ -1,0 +1,33 @@
+Pete Hunt: React: Rethinking best practices -- JSConf EU
+https://youtu.be/x7cQ3mrcKaY?si=1M6FIDxXlJ2cHHBv
+
+React mixes markup and logic but...
+
+Angular directives are tightly coupled
+So are VMs
+
+Display logic and markup are also very cohesive, so not as bad because same concerns
+
+The framework should not/cannot seperate concerns for you
+
+React component - highly cohesive but loosely coupled (with other components) building block
+
+React doesn't redefine JS concepts like functions, it just uses them
+
+Components are reusable, composable (with eachother) and are units-so unit testable
+
+Components should be small and only hold display logic to avoid spaghetti code
+
+React = accessibility of templates and power of javascript
+
+When data changes react re-renders the entire component - guaranteed to be up to date
+	Helps to make things feel static when really they're dynamic Dikstra
+	React components are idempotent functions
+
+Virtual DOM makes the constant rerender fast
+	It optimizes to do the least number of reads/writes and DOM manipulations for speed and so you don't have to worry about that 
+	Since components represent the structure of your UI it can do optimizations for speed
+
+Key takeaways
+	Components not templates - separate concerns in language of app, not template
+	Re-render don't mutate - mutating is hard for humans, throw the old out and rerender instead
