@@ -3,6 +3,7 @@
 import createElement from "./createElement.js";
 import render from "./render.js";
 import mount from "./mount.js";
+import diff from "./diff.js";
 
 const createVApp = (count) =>
   createElement("div", {
@@ -23,14 +24,18 @@ const createVApp = (count) =>
   });
 
 let count = 0;
-const vApp = createVApp(count);
+let vApp = createVApp(count);
 const $app = render(vApp);
 
 let $rootElement = mount($app, document.getElementById("main"));
 
 setInterval(() => {
   count++;
-  $rootElement = mount(render(createVApp(count)), $rootElement);
+  const vNewApp = createVApp(count);
+  const patch = diff(vApp, createVApp(count));
+
+  $rootElement = patch($rootElement);
+  vApp = vNewApp;
 }, 1000);
 
 console.log($app);
