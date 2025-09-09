@@ -13,3 +13,7 @@ This is an exercise assigned to me by my front end dev coach, meant to practice 
     - Q: What are the tradeoffs of functional components + hooks vs class components + lifecycle methods?
     - Q: Why does updating state with useEffect cause problems?
     - The mental model of a functional component
+
+- After meeting 1 on this project (Shown to coach in "Attributes diff and only re-render when needed" state)
+  - I need to finish the diff function.  Make sure it does the patch to the DOM in one big step (vs many small patches each doing 1 element).
+  - Clean up setInterval (rerender) method, it's convoluted right now.  Use one state variable to keep track of the current state instead of passing variables around.
