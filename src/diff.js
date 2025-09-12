@@ -32,11 +32,11 @@ const diff = (vOldNode, vNewNode) => {
     vOldNode.attributes,
     vNewNode.attributes
   );
-  //const patchChildren = diffChildren(vOldNode.children, vNewNode.children);
+  const patchChildren = diffChildren(vOldNode.children, vNewNode.children);
 
   return ($node) => {
     patchAttributes($node);
-    //patchChildren($node);
+    patchChildren($node);
     return $node;
   };
 };
@@ -56,6 +56,37 @@ const diffAttributes = (oldAttributes, newAttributes) => {
       patches.push(($node) => {
         $node.removeAttribute(k);
         return $node;
+      });
+    }
+  }
+
+  return ($node) => {
+    for (const patch of patches) {
+      patch($node);
+    }
+  };
+};
+
+// This is removing everything
+const diffChildren = (oldChildren, newChildren) => {
+  const patches = [];
+
+  for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
+    patches.push(diff(oldChildren[i], newChildren[i]));
+  }
+
+  if (oldChildren.length > newChildren.length) {
+    for (let i = newChildren.length - 1; i < oldChildren.length; i++) {
+      patches.push(($node) => {
+        $node.children.push(render(oldChildren[i]));
+      });
+    }
+  }
+
+  if (newChildren.length > oldChildren.length) {
+    for (let i = oldChildren.length - 1; i < newChildren.length; i++) {
+      patches.push(($node) => {
+        $node.children.push(render(newChildren[i]));
       });
     }
   }

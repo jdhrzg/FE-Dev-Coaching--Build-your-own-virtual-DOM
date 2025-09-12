@@ -1,8 +1,9 @@
+// Turns JS objects into DOM elements
+//
 function render(vNode) {
   if (typeof vNode === "string") {
     return document.createTextNode(vNode);
-  }
-  else {
+  } else {
     return renderElement(vNode);
   }
 }
