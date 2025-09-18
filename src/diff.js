@@ -67,17 +67,17 @@ const diffAttributes = (oldAttributes, newAttributes) => {
   };
 };
 
-// This is removing everything
 const diffChildren = (oldChildren, newChildren) => {
-  const patches = [];
+  const childPatches = [];
+  const additivePatches = [];
 
   for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
-    patches.push(diff(oldChildren[i], newChildren[i]));
+    childPatches.push(diff(oldChildren[i], newChildren[i]));
   }
 
   if (oldChildren.length > newChildren.length) {
     for (let i = newChildren.length - 1; i < oldChildren.length; i++) {
-      patches.push(($node) => {
+      additivePatches.push(($node) => {
         $node.children.push(render(oldChildren[i]));
       });
     }
@@ -85,16 +85,22 @@ const diffChildren = (oldChildren, newChildren) => {
 
   if (newChildren.length > oldChildren.length) {
     for (let i = oldChildren.length - 1; i < newChildren.length; i++) {
-      patches.push(($node) => {
+      additivePatches.push(($node) => {
         $node.children.push(render(newChildren[i]));
       });
     }
   }
 
-  return ($node) => {
-    for (const patch of patches) {
-      patch($node);
+  return ($parent) => {
+    for (let i = 0; i < childPatches.length; i++) {
+      childPatches[i]($parent.childNodes[i]);
     }
+
+    for (additivePatch in additivePatches) {
+      additivePatch($parent);
+    }
+
+    return $parent;
   };
 };
 
