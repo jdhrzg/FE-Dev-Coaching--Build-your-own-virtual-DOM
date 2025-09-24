@@ -55,7 +55,7 @@ setInterval(() => {
   // Make only the necessary changes
   $rootDOMElement = patch($rootDOMElement);
 
-  // Keep a copy of the changed App for next loop around
+  // Keep a copy of the changed App for next iteration
   vApp = newVApp;
 }, 1000);
 

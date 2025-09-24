@@ -44,17 +44,54 @@ const diff = (vOldNode, vNewNode) => {
 const diffAttributes = (oldAttributes, newAttributes) => {
   const patches = [];
 
-  for (const [k, v] of Object.entries(newAttributes)) {
-    patches.push(($node) => {
-      $node.setAttribute(k, v);
-      return $node;
-    });
+  // Old has duplicate attrs
+  // New has duplicate attrs
+  let oldAttrsByKey = new Map(
+    Object.entries(JSON.parse(JSON.stringify(oldAttributes)))
+  );
+  let newAttrsByKey = new Map(
+    Object.entries(JSON.parse(JSON.stringify(newAttributes)))
+  );
+
+  // New has different attr value
+  let matchingAttrKeys = [];
+  for (let oldAttr of oldAttrsByKey) {
+    // Does this attr exist in new and old?...
+    var matchingNewAttr = newAttrsByKey.get(oldAttr[0]);
+
+    if (matchingNewAttr !== undefined) {
+      // ...Yes, keep track of that for later.
+      matchingAttrKeys.push(oldAttr[0]);
+
+      // If old attr and matching new attr differ in value then patch in new value
+      if (oldAttr[1] !== matchingNewAttr[1]) {
+        patches.push(($node) => {
+          $node.setAttribute(oldAttr[0], matchingNewAttr[1]);
+          return $node;
+        });
+      }
+
+      // Remove old attr even if value didn't change in new, more on that later.
+      oldAttrsByKey.delete(oldAttr[0]);
+    }
   }
 
-  for (const k in oldAttributes) {
-    if (!(k in newAttributes)) {
+  // Old has attrs left after checking new for matches, remove them
+  if (oldAttrsByKey.length > 0) {
+    for (let oldAttr of oldAttrsByKey) {
       patches.push(($node) => {
-        $node.removeAttribute(k);
+        $node.removeAttribute(oldAttr[0]);
+        return $node;
+      });
+    }
+  }
+
+  // New has attrs that were not covered in matching logic, so they are brand new, patch them in
+  for (var newAttr of newAttrsByKey) {
+    let matchingMatchAttr = matchingAttrKeys.find((x) => x == newAttr[0]);
+    if (matchingMatchAttr === undefined) {
+      patches.push(($node) => {
+        $node.setAttribute(newAttr[0], newAttr[1]);
         return $node;
       });
     }
