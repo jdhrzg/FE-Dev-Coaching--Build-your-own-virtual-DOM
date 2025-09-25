@@ -10,7 +10,18 @@ const App = (drawCount) =>
       dataCount: drawCount,
     },
     children: [
-      createElement("input"),
+      createElement("label", {
+        attributes: {
+          for: "search",
+        },
+        children: [String("search")],
+      }),
+      createElement("input", {
+        attributes: {
+          id: "search",
+          type: "search",
+        },
+      }),
       String(drawCount),
       createElement("img", {
         attributes: {
@@ -18,14 +29,9 @@ const App = (drawCount) =>
           src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHMxazBsYmZ5ZWZqcHh2Ym1tdWp4eWJjNnpmeDlteWNhbnVmbXcwNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OhFuOJn2rbLsA/giphy.gif",
         },
       }),
-      createElement("button", {
-        attributes: {
-          onClick: () => {
-            drawCount = 0;
-          },
-        },
-        children: [String("button")],
-      }),
+      drawCount % 5 === 0
+        ? "Count divisible by 5!"
+        : "Count NOT divisible by 5!",
     ],
   });
 
