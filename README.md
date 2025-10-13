@@ -1,19 +1,28 @@
-This is an exercise assigned to me by my front end dev coach, meant to practice and learn about the below...
+This is an exercise assigned to me by my front end dev coach.
 
-- Understand React
-  - Watch Pete Hunt’s talk: https://www.youtube.com/watch?v=x7cQ3mrcKaY
-  - Exercise: Build your own virtual DOM
-    - No need to support JSX, use function calls instead of JSX HTML tags
-    - Bonus: Compare performance of your virtual DOM vs raw DOM calls
-    - Bonus: Compare performance of your virtual DOM vs React
-  - Q: Was React originally designed as a library or a framework?
-    - Q: In your opinion, is React more of a library or a framework today?
-      - Q: How do you think this influences the way people write code?
-  - Hooks
-    - Q: What are the tradeoffs of functional components + hooks vs class components + lifecycle methods?
-    - Q: Why does updating state with useEffect cause problems?
-    - The mental model of a functional component
+I started by watching this video to learn about React's virtual DOM and the benefits it provides.  
+https://www.youtube.com/watch?v=x7cQ3mrcKaY
 
-- After meeting 1 on this project (Shown to coach in "Attributes diff and only re-render when needed" state)
-  - I need to finish the diff function.  Make sure it does the patch to the DOM in one big step (vs many small patches each doing 1 element).
-  - Clean up setInterval (rerender) method, it's convoluted right now.  Use one state variable to keep track of the current state instead of passing variables around.
+Then I watched a few more videos and reading some articles on how people create their own virtual DOMs.
+
+The result of that is here...  
+https://jdhrzg.github.io/FE-Dev-Coaching--Build-your-own-virtual-DOM/src/
+
+This is my own virtual DOM who...
+- The first time the app runs it:
+  - Builds a virtual DOM tree out of JS objects
+  - Renders that tree (turns JS elements into DOM elements)
+  - Mounts those DOM elements to the "main" div in the physical DOM
+- After that first-time-render it begins it's 1 second refresh loop.  In that refresh loop it:
+  - Makes changes to the app via the JS Object virtual DOM tree (increments the refresh counter)
+  - Runs through a diff function that checks the entire virtual DOM tree for changes.
+    - If an element, it's attributes, or it's children have changed then a patch is built and will be applied to the physical DOM.
+    - If there were no changes to the element, it's attributes, or it's children then the DOM node is left alone and is not rerendered or anything.
+
+Below is a gif showing off how the VDOM works.  Notice...
+- How the gif is not being force-refreshed at 1 second, it runs it's whole cycle because that element does not change from refresh to refresh.
+  - That proves the diff function is working propertly and it's only rerendering things that have changed.
+- How I can type into the searchbox and my search is not cleared from refresh to refresh, again the proves the diff and rerender logic is working.
+- How the refresh count keeps changing every second, and the "is divisible by 5" label changes accordingly.
+  - So if elements ARE changing, they are rerendered and refreshed as necessary.
+<img width="1676" height="1089" alt="image" src="https://github.com/user-attachments/assets/3ea241a6-21be-40e8-875a-253976b14aef" />
