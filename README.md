@@ -1,13 +1,15 @@
-This is an exercise assigned to me by my front end development coach.  
+# Build your own virtual DOM
+
+Click here to see the result of this exercise   
+https://jdhrzg.github.io/FE-Dev-Coaching--Build-your-own-virtual-DOM/src/
+
+This is an exercise that was assigned to me by my front end development coach.  
 The goal of the exercise is to understand React at a deeper level, specifically understand how the virtual DOM works (one of React's most important features).
 
 I started by watching this video to learn about React's virtual DOM and the benefits it provides.  
 https://www.youtube.com/watch?v=x7cQ3mrcKaY
 
 Then I watched a few more videos and read some articles to learn how others have approached creating a DIY virtual DOM.
-
-**The result of this exercise is here...**  
-https://jdhrzg.github.io/FE-Dev-Coaching--Build-your-own-virtual-DOM/src/
 
 This is my own virtual DOM who...
 - The first time the app runs it:
