@@ -27,6 +27,7 @@ Below is a gif showing off how the VDOM works.  Notice...
   - That proves the diff function is working propertly and it's only rerendering things that have changed.
 - How I can type into the searchbox and my search is not cleared from refresh to refresh, again the proves the diff and rerender logic is working.
 - How the refresh count keeps changing every second, and the "is divisible by 5" label changes accordingly.
-  - So if elements ARE changing, they are rerendered and refreshed as necessary.
+  - So if elements ARE changing, they are rerendered and refreshed as necessary.  
+
 ![Demo3](https://github.com/user-attachments/assets/c914dbe1-6d27-4df9-819f-be7cb5d83ece)
 
